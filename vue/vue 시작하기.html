@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue.js Sample</title>
+    </head>
+    <body>
+        <h2>뷰 시작하기 : https://kr.vuejs.org/v2/guide/index.html</h2>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <div id="app">
+            <span v-bind:title="message2">
+                {{ message }}
+            </span>
+
+            <p v-if="able">사라지는 영역</p>
+            <p v-if="able">app.able = false; -> 사라짐</p>
+            <p v-if="!able">app.able = true; -> 생김</p>
+        </div>
+
+
+        <script>
+            var app = new Vue({
+                el : '#app',
+                data : {
+                    message : '이 페이지는 ' + new Date() + ' 에 로드 되었습니다',
+                    message2 : 'message2!',
+                    able : true
+                }
+            })
+        </script>
+    </body>
+</html>
