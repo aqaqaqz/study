@@ -15,18 +15,60 @@
             <p v-if="able">사라지는 영역</p>
             <p v-if="able">app.able = false; -> 사라짐</p>
             <p v-if="!able">app.able = true; -> 생김</p>
+
+            <ol>
+                <todo-item></todo-item>
+                <todo-list
+                    v-for = 't in todoTextList'
+                    v-bind:todo = 't'
+                    v-bind:key = 't.id'
+                ></todo-list>
+                <li v-for="t in arr">
+                    {{ t.text }}
+                </li>
+            </ol>
+
+            <p> {{ rMsg }} </p>
+            <button v-on:click='reverseMsg'>뒤집기</button>
+
+            <p>{{ vModelMsg }}</p>
+            <input v-model='vModelMsg' />
         </div>
 
-
         <script>
+            Vue.component('todo-item', {
+                template : '<li>전역으로 컴포넌트 등록하기</li>'
+            });
+            Vue.component('todo-list', {
+                props : ['todo'],
+                template : '<li>{{ todo.text }}</li>'
+            });
+
             var app = new Vue({
                 el : '#app',
                 data : {
                     message : '이 페이지는 ' + new Date() + ' 에 로드 되었습니다',
                     message2 : 'message2!',
-                    able : true
+                    able : true,
+                    arr : [
+                        { text : "app.arr.push({ text:'hello world!' })"}
+                    ],
+                    rMsg : '뒤집어버릴 문자열입니다.',
+                    vModelMsg : '안녕하세요',
+                    todoTextList : [
+                        { id : 0, text : '컴포넌트 for : todo-list 1번 텍스트'},
+                        { id : 1, text : '컴포넌트 for : todo-list 2번 텍스트'},
+                        { id : 2, text : '컴포넌트 for : todo-list 3번 텍스트'}
+                    ]
+                },
+                methods:{
+                    reverseMsg : function(){
+                        this.rMsg = this.rMsg.split('').reverse().join('');
+                    }
                 }
             })
+            
+            
         </script>
     </body>
 </html>
