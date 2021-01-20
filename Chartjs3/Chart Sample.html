@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chartjs3 Sample</title>
+        <script src="./Chart.js-2.9.4/dist/Chart.js"></script>
+        <script> 
+            var getRandomArrData = (size, range) => {
+                var arr = [];
+                while(size>-1){
+                    arr.push(Math.random()*range);
+                    size--;
+                }
+                return arr;
+            }
+         
+            var getRandomArrColor = (size) => {
+                var arr = [];
+                while(size>-1){
+                    var c1 = parseInt(Math.random()*255) + '';
+                    var c2 = parseInt(Math.random()*255) + '';
+                    var c3 = parseInt(Math.random()*255) + '';
+                    var trans = Math.random();
+                    arr.push('rgba('+c1+', '+c2+', '+c3+', '+trans+')');
+                    size--;
+                }
+                return arr;
+            }
+           
+            var getData = (dataType) => {
+                var color1 = 'rgba(255, 99, 132, 0.5)';
+                var color2 = 'rgba(100, 222, 7, 1)';
+                if(dataType === "random"){
+                    color1 = getRandomArrColor(10);
+                    color2 = color1;
+                }
+
+                var data =  {
+                    //labels: Array.from({length:size}, (v, i) => i),
+                    labels : [],
+                    datasets: [
+                        {
+                            label: '1번',
+                            backgroundColor: color1,
+                            borderColor: color1,
+                            data: [],
+                            fill: false, //line, radar chart 의 경우 선 아래 채울지 여부 결정
+                            lineTension: 0
+                        },
+                        {
+                            label: '2번',
+                            backgroundColor: color2,
+                            borderColor: color2,
+                            data: [],
+                            fill: false,
+                            lineTension: 0
+                        }
+                    ]
+                };
+                return data;
+            }
+
+            var getOption = () => {
+                var option = {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                    //,animation: {
+                    //    duration: 0 //애니메이션 효과 끄기
+                    //}
+                };
+                return option;
+            }
+
+            function addData(chart, label) {
+                if(label > 10){
+                    chart.data.labels.shift();
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.data.shift();
+                    });
+                }
+
+                chart.data.labels.push(label);
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(getRandomArrData(1, 100)[0]);
+                });
+                chart.update();
+            }
+
+            makeChart = (id, charType, dataType)=>{
+                var ctx = document.getElementById(id);
+                var label = 0;
+
+                if(ctx == null || typeof charType === 'undefined'){
+                    console.log(id + " " + charType + " is not valid");
+                    return;
+                }
+                var myChart = new Chart(ctx, {
+                    type: charType, //종류
+                    data: getData(dataType),
+                    options: getOption()
+                });
+
+                setInterval(function(){
+                    addData(myChart, label);
+                    label++;
+                }, 1000);
+            }
+        </script>
+    </head>
+    <body>
+        <h2>Chartjs3 Bar Chart</h2>
+
+        <div style="clear:both">
+            <div style="float:left; width:40%; margin:0 auto"> <!-- 반응형으로 하고 싶은 경우 -->
+                <canvas id="myChart1"></canvas> 
+            </div>
+            <div style="float:left; width:40%; margin:0 auto">
+                <canvas id="myChart2"></canvas> 
+            </div>
+        </div>
+
+        </br>
+
+        <div style="clear:both">
+            <div style="float:left; width:40%; margin:0 auto">
+                <canvas id="myChart3"></canvas> 
+            </div>
+            <div style="float:left; width:40%; margin:0 auto">
+                <canvas id="myChart4"></canvas> 
+            </div>
+        </div>
+
+        </br>
+        <div style="clear:both">
+            <div style="float:left; width:40%; margin:0 auto">
+                <canvas id="myChart5"></canvas> 
+            </div>
+            <div style="float:left; width:40%; margin:0 auto">
+                <canvas id="myChart6"></canvas> 
+            </div>
+        </div>
+
+        </br>
+
+        <script>
+            makeChart("myChart1", "bar", "data");
+            makeChart("myChart2", "line", "data");
+            makeChart("myChart3", "radar", "data");
+            makeChart("myChart4", "doughnut", "random");
+            makeChart("myChart5", "polarArea", "random");
+        </script>
+    </body>
+</html>
