@@ -1,9 +1,10 @@
-waf(웹방화벽) - https://ko.wikipedia.org/wiki/%EC%9B%B9%EB%B0%A9%ED%99%94%EB%B2%BD
+waf(웹방화벽)   - https://ko.wikipedia.org/wiki/%EC%9B%B9%EB%B0%A9%ED%99%94%EB%B2%BD
+                - https://woowabros.github.io/security/2020/10/15/woowa-aws-waf.html    
 cifs - https://kim-dragon.tistory.com/38
 로드벨런서 - https://m.post.naver.com/viewer/postView.nhn?volumeNo=27046347&memberNo=2521903
 웹플럭스 - https://parkcheolu.tistory.com/134
 리액티브 프로그래밍 - https://juneyr.dev/reactive-programming
 레디스 키 - http://wiki.hash.kr/index.php/%EB%A0%88%EC%A7%80%EC%8A%A4
-
+TLS - https://namu.wiki/w/TLS
 
 AtomicInteger
