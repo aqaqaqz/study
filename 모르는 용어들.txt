@@ -7,4 +7,6 @@ cifs - https://kim-dragon.tistory.com/38
 레디스 키 - http://wiki.hash.kr/index.php/%EB%A0%88%EC%A7%80%EC%8A%A4
 TLS - https://namu.wiki/w/TLS
 
+synonym 사용이유(오라클) - https://myjamong.tistory.com/179
+
 AtomicInteger
