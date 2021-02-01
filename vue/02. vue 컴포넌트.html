@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>component</title>
+    </head>
+    <body>
+        <h2>do it vue</h2>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        <div id="app">
+          
+            <area-component ></area-component>
+
+            <!-- 
+                하위에서 상위 호출하기. 
+                상위에서 하위로 props라는 속성이 전달이 가능함.
+                이 경우 하위는 전역 컴포넌트, 상위 컴포넌트는 cmp1 
+                v-bind:[props 속성 이름] = '[상위 컴포넌트의 data]'
+            -->
+            <local-component1 v-bind:propsname='clickCount'></local-component1>
+
+            <!--
+                상위에서 하위 호출하기.
+                하위에서 이벤트를 발생하시켜 상위를 호출.
+                상위에선 이벤트를 수신하여 상위 컴포넌트의 메서드 호출.
+                
+                상위가 vue 인스턴스, 하위가 component2
+                이벤트 발생 : this.$emit('[이벤트명]')
+                이벤트 수신 : v-on:[이벤트명]='상위 컴포넌트의 메서드 명'
+           --> 
+            <local-component2 v-on:event-name='upperFunc'></local-component2>
+        </div>
+
+        <script>            
+            Vue.component('area-component', {
+                template : '<div>area-component</div>'
+            })
+
+            /*
+                위에 있는 하위->상위, 상위->하위의 호출은 항상 묶여있을 필요가 있다.
+                만약 depth가 깊어지거나 묶여있지 않은 vue 인스턴스끼리의 이벤트에서는 eventBus를 사용한다.
+                단순하게 중계역활을 해주는 vue 인스턴스를 하나 만들어주고 $on과 $emit을 이용한다.
+                $emit은 이벤트를 호출. $on은 호출한 이벤트를 받을곳에 정의해주면 된다.
+            */
+            var eventBus = new Vue();
+
+            var cmp1 = {
+                props : ['propsname'],
+                template : '<div>local-component1 : {{propsname}}</div>',
+                data : function(){
+                    return {cmp1Data : 100}
+                },
+                updated: function(){
+                    console.log('comp1 updated');
+                },
+                created: function(){
+                    eventBus.$on('sampleEventBus', function(data){
+                        console.log('sampleEventBus.. data : ' + data);
+                    });
+                }
+                
+            }
+
+            var cmp2 = {
+                template: '<div v-on:click="showLog">local component2 : Click Me!! </div>',
+                methods : { //메서드 추가
+                    showLog: function(){
+                        this.$emit('event-name'); //이벤트 발생                
+                        eventBus.$emit('sampleEventBus', 'I am event bus!');
+                    }
+                },
+                data : function(){
+                    return {cmp2Data : cmp1.data.cmp1Data} //컴포넌트끼리 직접적인 데이터 참조는 불가능함.
+                }
+            }
+
+            new Vue({
+                el : '#app',
+                data : {
+                    clickCount : 0
+                },
+                methods : {
+                    upperFunc : function(){
+                        console.log("upperFunc...");
+                        
+                        //comp1, vue의 updated 이벤트 발생
+                        this.clickCount++;
+                    }
+                },
+                //뷰 인스턴스를 등록하면서 등록된 컴포넌트들은 자동적으로 하위가 되고 뷰 인스턴스 자체가 상위컴포넌트가 된다.
+                components : {
+                    'local-component1' : cmp1,
+                    'local-component2' : cmp2
+                },
+                updated: function(){
+                    console.log('vue instance updated')
+                }
+            })
+        </script>
+    </body>
+</html>

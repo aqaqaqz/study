@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Vue.js Sample</title>
+    </head>
+    <body>
+        <h2>do it vue</h2>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <div id="app">
+            {{ message }}
+        </div>
+
+        <script>            
+            new Vue({
+                el : "#app",
+                data: { 
+                    message : "Hello Vue.js!"
+                },
+                beforeCreate : function(){
+                    console.log("beforeCreate");
+                },
+                created : function(){
+                    console.log("created");
+                },
+                mounted : function(){
+                    console.log("mounted");
+                    this.message = "update message~";
+                },
+                beforeUpdate : function(){
+                    console.log("beforeUpdate");
+                },
+                updated: function(){
+                    console.log("updated");
+                }
+            })
+        </script>
+    </body>
+</html>
