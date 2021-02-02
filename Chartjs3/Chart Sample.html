@@ -59,6 +59,33 @@
                 return data;
             }
 
+            var getScatterData = function(size, range) {
+                var data = [];
+                for (var i = 0; i < size; i++) {
+                    data.push({
+                        x: getRandomArrData(1, range)[0],
+                        y: getRandomArrData(1, range)[0]
+                    });
+                }
+                console.log(data);
+                return data;
+            }
+
+            var colorArr = getRandomArrColor(2);
+            var scatterChartData = {
+                datasets: [{
+                    label: 'First',
+                    borderColor: colorArr[0],
+                    backgroundColor: colorArr[0],
+                    data: []
+                }, {
+                    label: 'Second',
+                    borderColor: colorArr[1],
+                    backgroundColor: colorArr[1],
+                    data: []
+                }]
+            };
+
             var getOption = () => {
                 var option = {
                     scales: {
@@ -73,39 +100,68 @@
                 return option;
             }
 
-            function addData(chart, label) {
-                if(label > 10){
-                    chart.data.labels.shift();
+            function addData(chart, cnt) {
+                if(chart.type == "scatter"){
+                    if(cnt >= 10){
+                        chart.data.datasets.forEach((dataset) => {
+                            while(dataset.data.length>0 && dataset.data[0].x == cnt-10){
+                                dataset.data.shift();
+                            }
+                        });
+                    }
                     chart.data.datasets.forEach((dataset) => {
-                        dataset.data.shift();
+                        var addCnt = Math.random()*10;
+                        for(var i=0;i<addCnt;i++){
+                            var temp = { y : getRandomArrData(1, 100)[0] };
+                            temp.x = cnt;
+                            dataset.data.push(temp);
+                        }
+                    });
+                }else{
+                    if(cnt >= 10){
+                        chart.data.labels.shift();
+                        chart.data.datasets.forEach((dataset) => {
+                            dataset.data.shift();
+                        });
+                    }
+
+                    chart.data.labels.push(cnt);
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.data.push(getRandomArrData(1, 100)[0]);
                     });
                 }
 
-                chart.data.labels.push(label);
-                chart.data.datasets.forEach((dataset) => {
-                    dataset.data.push(getRandomArrData(1, 100)[0]);
-                });
                 chart.update();
             }
 
-            makeChart = (id, charType, dataType)=>{
+            makeChart = (id, chartType, dataType)=>{
                 var ctx = document.getElementById(id);
-                var label = 0;
+                var cnt = 0;
 
-                if(ctx == null || typeof charType === 'undefined'){
-                    console.log(id + " " + charType + " is not valid");
+                if(ctx == null || typeof chartType === 'undefined'){
+                    console.log(id + " " + chartType + " is not valid");
                     return;
                 }
-                var myChart = new Chart(ctx, {
-                    type: charType, //종류
-                    data: getData(dataType),
-                    options: getOption()
-                });
+
+                var myChart;
+                if(chartType == 'scatter'){
+                    myChart = Chart.Scatter(ctx, {
+                        data: scatterChartData,
+                        options: getOption()
+                    });
+                }else{
+                    myChart = new Chart(ctx, {
+                        type: chartType, //종류
+                        data: getData(dataType),
+                        options: getOption()
+                    });
+                }
+                myChart.type = chartType;
 
                 setInterval(function(){
-                    addData(myChart, label);
-                    label++;
-                }, 1000);
+                    addData(myChart, cnt);
+                    cnt++;
+                }, 500);
             }
         </script>
     </head>
@@ -150,6 +206,7 @@
             makeChart("myChart3", "radar", "data");
             makeChart("myChart4", "doughnut", "random");
             makeChart("myChart5", "polarArea", "random");
+            makeChart("myChart6", "scatter");
         </script>
     </body>
 </html>
