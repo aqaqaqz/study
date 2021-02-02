@@ -6,6 +6,7 @@ cifs - https://kim-dragon.tistory.com/38
 리액티브 프로그래밍 - https://juneyr.dev/reactive-programming
 레디스 키 - http://wiki.hash.kr/index.php/%EB%A0%88%EC%A7%80%EC%8A%A4
 TLS - https://namu.wiki/w/TLS
+hazelcast - https://supawer0728.github.io/2018/03/11/hazelcast/
 
 synonym 사용이유(오라클) - https://myjamong.tistory.com/179
 
