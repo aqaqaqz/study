@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>라우터 예제</title>
+    </head>
+    <body>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <div id="app">
+            <h2>데이터 바인딩</h2>            
+            <div>{{message}}</div>
+            <div>{{reverseMsg}} -----> 뒤집기</div>
+            <div v-once>{{message}} -----> 얘는 v-once. 이건 값 안바뀜</div>
+            <!-- v-bind를 쓰지않고 단축하여 적어도 동작함 -->
+            <div v-bind:id='bindId' :class='bindClass'>id, class 바인드</div>
+            <button v-on:click='changeValue'>값 바꾸기</button>
+
+            <br>
+
+            <ul>
+                <li v-for="str in strArr">{{ str }}</li>
+            </ul>
+
+            <div v-if='getStrLenCom'>strArr의 len이 5이상이면 노출(compute)</div>
+            <div v-if='getStrLenMethod()'>strArr의 len이 5이상이면 노출(mothod)</div>
+        </div>
+
+        <script>
+            let myVue = new Vue({
+                el : "#app",
+                data : {
+                    message : 'default data',
+                    bindId : 'useBindForId',
+                    bindClass : 'useBindForClass',
+                    strArr : ['1', '2', '3', '4']
+                },
+                computed:{ //데이터 속성 자동으로 계산해주는 속성(캐싱 효과있음)
+                    reverseMsg : function(){
+                        //아래내용 {{ ... }} 넣어줘도 동작하나 복잡한건 빼주는게걸 권장
+                        return this.message.split('').reverse().join('');
+                    },
+                    getStrLenCom : function(){
+                        return this.strArr.length>4;
+                        //return false;
+                    }
+                },
+                methods : {
+                    changeValue : function(e){
+                        this.message = 'change value';
+                    },
+                    getStrLenMethod : function(){
+                        return this.strArr.length>4;
+                        //return false;
+                    }
+                },
+                watch : {
+                    strArr : function(data){
+                        console.log("strArr값 변경", data);
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
