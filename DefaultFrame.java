@@ -2,10 +2,15 @@ package frame;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -13,10 +18,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import util.Util;
 import model.PhotoConst;
+import model.PhotoPath;
 
 public class DefaultFrame extends JFrame{
-	private Container c = getContentPane();;
+	private Container c = getContentPane();
 	
 	public DefaultFrame(){
 		setTitle(PhotoConst.TITLE);
@@ -37,23 +44,29 @@ public class DefaultFrame extends JFrame{
 	
 	private JPanel makeTitle(String title, int width, int height){
 		JPanel titlePanel = new JPanel();
+		JLabel titleLabel = new JLabel(title);
+		titleLabel.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 		
-		titlePanel.add(new JLabel(title));
+		titlePanel.add(titleLabel);
 		if(width!=-1 && height!=-1) titlePanel.setSize(width, height);
 		
 		return titlePanel;
 	}
 		
 	private JPanel getCenterPanel(){
-		JPanel center = new JPanel(new GridLayout(2,1));
+		JPanel center = new JPanel(new GridLayout(2, 1));
 		
-		center.add(makeFileSelectButton("from", PhotoConst.WINDOW_WIDTH, PhotoConst.FILE_HEIGHT));
-		center.add(makeFileSelectButton("to", PhotoConst.WINDOW_WIDTH, PhotoConst.FILE_HEIGHT));
+		String[] arr = {PhotoConst.ORI_TEXT, PhotoConst.TRG_TEXT};
+		for(String text : arr){
+			JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 50, 0));
+			p.add(text, makeFileSelectButton(text, PhotoConst.WINDOW_WIDTH, PhotoConst.FILE_HEIGHT));
+			center.add(p);
+		}
 		
 		return center;
 	}
 	
-	private JPanel makeFileSelectButton(String buttonText, int width, int height){
+	private JPanel makeFileSelectButton(final String buttonText, int width, int height){
 		JPanel temp = new JPanel();
 		JButton fileBtn = new JButton(buttonText);
 		final JLabel pathLabel = new JLabel("경로를 선택하세요");
@@ -71,6 +84,8 @@ public class DefaultFrame extends JFrame{
 					public void actionPerformed(ActionEvent e2) {
 						if(e2.getModifiers() == 16){
 							pathLabel.setText(jfc.getSelectedFile().toString());
+							if(PhotoConst.ORI_TEXT.equals(buttonText)) PhotoPath.setOriPath(jfc.getSelectedFile().toString());
+							if(PhotoConst.TRG_TEXT.equals(buttonText)) PhotoPath.setTrgPath(jfc.getSelectedFile().toString());
 						}
 					}
 				});
@@ -78,7 +93,7 @@ public class DefaultFrame extends JFrame{
 				jfc.showOpenDialog(null);
 			}
 		});
-		
+
 		temp.add(fileBtn);
 		temp.add(pathLabel);
 		if(width!=-1 && height!=-1) temp.setSize(width, height);
@@ -87,22 +102,33 @@ public class DefaultFrame extends JFrame{
 	}
 	
 	private JPanel makeOption(){
-		JPanel temp = new JPanel(new GridLayout(2,2));
+		JPanel temp = new JPanel(new GridLayout(2,3));
 		
-		JPanel fromExtensionList = new JPanel();
-		fromExtensionList.add(new JCheckBox("jpg"));
-		fromExtensionList.add(new JCheckBox("etc"));
+		JPanel oriExtensionList = new JPanel();
+		for(String text : PhotoConst.ORI_EXTENSION) oriExtensionList.add(new JCheckBox(text));
 		
-		JPanel toExtensionList = new JPanel();
-		toExtensionList.add(new JCheckBox("png"));
-		toExtensionList.add(new JCheckBox("bmp"));
+		JPanel trgExtensionList = new JPanel();
+		for(String text : PhotoConst.TRG_EXTENSION) trgExtensionList.add(new JCheckBox(text));
 		
+		temp.add(new JLabel("원본확장자", null, JLabel.CENTER));
+		temp.add(new JLabel("대상확장자", null, JLabel.CENTER));
+		temp.add(new JLabel("", null, JLabel.CENTER));
 		
-		temp.add(new JLabel("from확장자", null, JLabel.CENTER));
-		temp.add(new JLabel("to확장자", null, JLabel.CENTER));
-		temp.add(toExtensionList);
-		temp.add(fromExtensionList);
+		temp.add(oriExtensionList);
+		temp.add(trgExtensionList);
 		
+		JPanel p = new JPanel();
+		JButton copyBtn = new JButton("복사");
+		copyBtn.setSize(100, 50);
+
+		copyBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(PhotoPath.getOriPath() + " --- " + PhotoPath.getTrgPath());
+			}
+		});
+		p.add("복사", copyBtn);
+		temp.add(p);
 		
 		return temp;
 	}
