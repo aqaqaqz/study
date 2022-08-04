@@ -11,3 +11,5 @@ hazelcast - https://supawer0728.github.io/2018/03/11/hazelcast/
 synonym 사용이유(오라클) - https://myjamong.tistory.com/179
 
 AtomicInteger
+
+JWT(JSON Web Token) - https://velog.io/@_woogie/JWT-%EB%A1%9C%EA%B7%B8%EC%9D%B8%EB%B0%A9%EC%8B%9D-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-feat.-session%EC%97%90%EC%84%9C-jwt%EB%A1%9C
