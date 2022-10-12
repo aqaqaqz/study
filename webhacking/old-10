@@ -1,0 +1,15 @@
+화면의 O 위에 마우스를 대보면 yOu 변경
+
+개발자도구를 켜보면 onclick, onmouseover, onmouseout 이벤트가 걸려있고 클릭을 텍스트가 이동
+
+onclick 이벤트에는 1600px까지 도달하면 링크주소를
+
+https://webhacking.kr/challenge/code-1/?go=1600px
+
+이렇게 변경하게 해뒀다.
+
+하지만 저 주소를 입력하면 [no hack]이란 문구를 노출
+
+그렇다고 1600번을 클릭하기는 싫으니 개발자도구를 열어서 console에서
+
+for(let i=0;i<1600;i++) $("#hackme").click();
