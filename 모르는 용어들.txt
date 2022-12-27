@@ -17,4 +17,4 @@ JWT(JSON Web Token) - https://velog.io/@_woogie/JWT-%EB%A1%9C%EA%B7%B8%EC%9D%B8%
 CDC(Change Data Capture) - https://subbak2.com/93
   - OGG(Oracle GoldenGate) - 오라클의 CDC 솔루션
 
-SaaS(Software as a Service) : https://library.gabia.com/contents/infrahosting/9123/
+SaaS(Software as a Service) : https://wnsgml972.github.io/network/2018/08/14/network_cloud-computing/
