@@ -10,10 +10,11 @@ import java.util.Map;
 import annotation.ClassAnnotation;
 import annotation.FieldAnnotation;
 import annotation.FuncAnnotation;
+import annotation.PhoneValidationAnnotation;
 
 @ClassAnnotation
 public class TestClass {
-	
+		
 	@FieldAnnotation(name="string")
 	public String str1;
 	@FieldAnnotation(name="string")
@@ -22,6 +23,9 @@ public class TestClass {
 	public int int1;
 	@FieldAnnotation(name="int")
 	public int int2;
+	
+	@PhoneValidationAnnotation(message="유효하지 않은 번호입니다.")
+	private String phone;
 	
 	@FuncAnnotation(myValue1 = "input value")
 	public void functionAnnotation() throws NoSuchMethodException, SecurityException {
@@ -79,5 +83,10 @@ public class TestClass {
 		}
 		
 		System.out.println();
+	}
+	
+	public void setPhone(String phone) {
+		System.out.println("=======================setPhone==========================");
+		this.phone = phone;
 	}
 }
