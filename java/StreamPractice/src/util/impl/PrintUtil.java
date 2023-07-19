@@ -12,10 +12,15 @@ public class PrintUtil {
 		list.stream().forEach(o -> this.line(o.toString()+" "));
 	}
 	
-	public void booleanList(boolean... arr) {
-		for(boolean b : arr) {
-			line( b ? "T" : "F" );
+	public void objList(Object... arr) {
+		StringBuffer sb = new StringBuffer();
+		
+		for(Object o : arr) {
+			if(!sb.isEmpty()) sb.append(", ");
+			sb.append(o.toString());
 		}
+		
+		line(sb.toString());
 	}
 	
 	public void line() {
