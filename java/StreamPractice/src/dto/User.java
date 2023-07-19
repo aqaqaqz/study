@@ -56,6 +56,11 @@ public class User {
 		public User build() {
             return new User(this);
         }
+		
+		@Override
+		public String toString() {
+			return "Builder의 toString 입니다.";
+		}
 	}
 	
 	///////////////////////////////////////////////////////////
@@ -65,7 +70,7 @@ public class User {
 		sb.append("=====================\n");
 		sb.append("Name   : ").append(this.name).append("\n");
 		sb.append("Gender : ").append(this.gender.name()).append("\n");
-		sb.append("Age    : ").append(this.age).append("\n");
+		sb.append("Age    : ").append(this.age);
 		
 		return sb.toString();
 	}
