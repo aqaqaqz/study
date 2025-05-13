@@ -1,6 +1,7 @@
 - window
   - install nodejs
   - npx create-react-app my-react-app
+  - npm install react-router-dom
   - npm start
   - http://localhost:3000/
 
@@ -55,3 +56,8 @@ test('renders learn react link', () => {
 <Button variant="primary">Primary Button</Button>
 <Button variant="secondary">Secondary Button</Button>
 ~~~
+ 
+- react 2번 실행 방지
+  - <React.StrictMode> 사용 시 문제되는걸 찾기위해 렌더링을 한번 추가됨
+  - 해당 모드를 제거하거나 문제가 되는 코드를 render밖으로 빼줘야함
+  - 일반적으로 배포 시에는 성능이슈로 해당 모드 사용 안함
