@@ -9,3 +9,7 @@ header{height: 100px;}
 .contents{height: calc(100% - 180px);}
 
 footer{height: 80px;}
+
+.custom-width-rate-100 { width:100%; }
+.custom-width-const-100 { width:100px; }
+.custom-width-const-300 { width:300px; }

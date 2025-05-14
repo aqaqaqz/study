@@ -1,33 +1,82 @@
-import axios from 'axios';
-import Api from '../common/api';
+import UrlUtils from '../common/url';
+import ApiUtils from '../common/api';
+import ListGroup from 'react-bootstrap/ListGroup';
+import {componentDidMount, Component} from 'react';
 
-export default function Main(){
-  let myList = [];
+class Main extends Component{
+  state = { 
+    myList: [] ,
+    randomList: []
+  };
 
-  axios.get(Api.makeGetUrl(Api.TEST_URL, {"osCd":"02"}), {
-    header:{
-      'Accept':'application/json',
-      'Content-Type':'application/json;charset=UTP-8',
-    }
-  })
-  .then(res => {
-    let keys = Object.keys(res.data);
-    for(let i=0;i<keys.length;i++){
-      if(typeof keys[i] != 'string') continue;
-      myList.push(keys[i] + " : " + res.data[keys[i]]);
-    }
-    console.log(myList);
-  });
+  componentDidMount(){
+    ApiUtils.get(UrlUtils.TEST_URL)
+    .then(res => {
+      let keys = Object.keys(res.data);
+      let liList = [];
 
-  return (
-    <section className="content col-12">
-      <ul>
-        {
-          myList.map((d, idx) => (
-            <li key={idx}>{d}</li>
-          ))
-        }
-      </ul>
-    </section>
-  );
+      for(let i=0;i<keys.length;i++){
+        const li = document.createElement('li');
+        liList.push(keys[i]);
+      }
+
+      this.setState( () => (
+        { myList : liList }
+      ));
+    });
+
+    setInterval(()=>{
+      let cnt = Math.floor(Math.random()*7)+3;
+      let nextArr = [];
+      for(let i=0;i<cnt;i++){
+        nextArr.push(Math.floor(Math.random()*10000000))
+      }
+
+      this.setState( () => (
+        { randomList : nextArr }
+      ));
+    }, 100);
+  }
+  
+  render(){
+    return (
+      <div className="content d-flex col-12">
+        <section className="content col-4">
+          <ListGroup>
+            <ListGroup.Item as="li" active>
+            회원수 : {this.state.myList.length}
+            </ListGroup.Item>
+            {
+              this.state.myList.map( (str, idx) => (
+                <ListGroup.Item>ID : {str}</ListGroup.Item>
+              ))
+            }
+          </ListGroup>
+        </section>
+        <section className="ps-1 content col-4">
+          <ListGroup>
+            <ListGroup.Item as="li" active>
+              임시1
+            </ListGroup.Item>
+            {
+              this.state.randomList.map( (num) => (
+                <ListGroup.Item>{num}</ListGroup.Item>
+              ))
+            }
+          </ListGroup>
+        </section>
+        <section className="ps-1 content col-4">
+          <ListGroup>
+            <ListGroup.Item as="li" active>
+              임시2
+            </ListGroup.Item>
+          </ListGroup>
+        </section>
+        
+      </div>
+    );
+  }
 }
+
+export default Main;
+

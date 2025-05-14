@@ -1,3 +1,5 @@
+- javascript : https://ko.javascript.info/
+
 - window
   - install nodejs
   - npx create-react-app my-react-app
