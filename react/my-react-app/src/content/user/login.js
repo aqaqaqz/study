@@ -7,6 +7,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 class Login extends Component{ 
+    
+    
+
     login = () => {
         let loginForm = document.querySelector("#loginForm");
         let data = {
@@ -22,6 +25,19 @@ class Login extends Component{
                 return;
             }else{
                 window.location.href = UrlUtils.HOME;
+            }
+        });
+    }
+
+    compare = () => {
+        if(!window.Kakao.isInitialized()){
+            window.Kakao.init('fe27ad8287c7132d965ea92cab8bf86a');
+        }
+
+        window.Kakao.Link.sendCustom({
+            templateId : 122495,
+            templateArgs : {
+                
             }
         });
     }
@@ -43,6 +59,9 @@ class Login extends Component{
                         <div className="row justify-content-center custom-width-rate-100 py-4">
                             <div className="custom-width-const-100">
                                 <Button onClick={this.login} className="custom-width-rate-100" variant="outline-secondary">login</Button>
+                            </div>
+                            <div className="custom-width-const-100">
+                                <Button onClick={this.compare} className="custom-width-rate-100" variant="outline-secondary">kakao</Button>
                             </div>
                         </div>
                     </Form>

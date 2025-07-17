@@ -25,17 +25,15 @@ class Main extends Component{
       ));
     });
 
-    setInterval(()=>{
-      let cnt = Math.floor(Math.random()*7)+3;
-      let nextArr = [];
-      for(let i=0;i<cnt;i++){
-        nextArr.push(Math.floor(Math.random()*10000000))
-      }
+    let cnt = Math.floor(Math.random()*7)+3;
+    let nextArr = [];
+    for(let i=0;i<cnt;i++){
+      nextArr.push(Math.floor(Math.random()*10000000))
+    }
 
-      this.setState( () => (
-        { randomList : nextArr }
-      ));
-    }, 100);
+    this.setState( () => (
+      { randomList : nextArr }
+    ));
   }
   
   render(){
